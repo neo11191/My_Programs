@@ -1,0 +1,393 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+    void solveSudoku(vector<vector<char> > &board) {
+
+        int m = 9, n = 9;
+
+        vector<vector<string> > A(m, vector<string>(n,"111111111"));
+
+        for (int i = 0; i < m; i++)
+
+        {
+
+            for (int j = 0; j < n; j++)
+
+            {
+
+                if (board[i][j] != '.')
+
+                {
+
+                    for (int k = 0; k < 9; k++)
+
+                    {
+
+                        if (board[i][j] != k+1)
+
+                            A[i][j][k] = '0';
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        string r = "111111111";
+
+        for (int i = 0; i < 9; i++)
+
+        {
+
+            r = "111111111";
+
+            int start_i = (i/3)*3;
+
+            int start_j = (i%3)*3;
+
+            for (int j = 0; j < 3; j++)
+
+            {
+
+                start_j = (i%3)*3;
+
+                for (int k = 0; k < 3; k++)
+
+                {
+
+                    if (board[j][k] != '.')
+
+                    {
+
+                        int yy = board[j][k] - '0';
+
+                        r[yy-1] = '0';
+
+                    }
+
+                    start_j++;
+
+                }
+
+                start_i++;
+
+            }
+
+            for (int j = 0; j < 3; j++)
+
+            {
+
+                start_j = (i%3)*3;
+
+                for (int k = 0; k < 3; k++)
+
+                {
+
+                    if (board[j][k] == '.')
+
+                    {
+
+                        //modify A[j][k]
+
+                        for (int e = 0; e < 9; e++)
+
+                        {
+
+                            if ((r[i] == '1')&&(A[j][k][e] == '1'))
+
+                                A[j][k][e] = '1';
+
+                            else
+
+                                A[j][k][e] = '0';
+
+                        }
+
+                    }
+
+                    start_j++;
+
+                }
+
+                start_i++;
+
+            }
+
+        }
+
+        int change = 0;
+
+        for (int i = 0; i < 9; i++)
+
+        {
+
+            for (int j = 0; j < 9; j++)
+
+            {
+
+                if (board[i][j] == '.')
+
+                    change++;
+
+            }
+
+        }
+
+        while(change > 0)
+
+        {
+		cout << " iteration" << change <<  endl;
+            for (int i = 0; i < 9; i++)
+
+            {
+
+                r = "111111111";
+
+                for (int j = 0; j < 9; j++)
+
+                {
+
+                    if (board[j][i] != '.')
+
+                    {
+
+                        int c = board[j][i]-'0';
+
+                        r[c-1] = '0';
+
+                    }
+
+                }
+
+                for (int j = 0; j < 9; j++)
+
+                {
+
+                    if (board[j][i] == '.')
+
+                    {
+
+                        for (int e = 0; e < 9; e++)
+
+                        {
+
+                            if ((r[e] == '1')&&(A[j][i][e] == '1'))
+
+                                A[j][i][e] = '1';
+
+                            else
+
+                                A[j][i][e] = '0';
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            for (int i = 0; i < 9; i++)
+
+            {
+
+                r = "111111111";
+
+                for (int j = 0; j < 9; j++)
+
+                {
+
+                    if (board[i][j] != '.')
+
+                    {
+
+                        int c = board[i][j]-'0';
+
+                        r[c-1] = '0';
+
+                    }
+
+                }
+
+                for (int j = 0; j < 9; j++)
+
+                {
+
+                    if (board[i][j] == '.')
+
+                    {
+
+                        for (int e = 0; e < 9; e++)
+
+                        {
+
+                            if ((r[e] == '1')&&(A[i][j][e] == '1'))
+
+                                A[i][j][e] = '1';
+
+                            else
+
+                                A[i][j][e] = '0';
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            for (int i = 0; i < 9; i++)
+
+            {
+
+                for (int j = 0; j < 9; j++)
+
+                {
+
+                    int ee = 0, aa = 0;
+
+                    if (board[i][j] == '.')
+
+                    {
+
+                        for (int e = 0; e < 9; e++)
+
+                        {
+
+                            if (A[i][j][e] == '1')
+
+                            {
+
+                                ee++;
+
+                                aa = e+1;
+
+                            }
+
+                        }
+
+                        if (ee == 1)
+
+                        {
+
+                            board[i][j] = '0'+ (char)aa;
+
+                            change--;
+
+                        }
+
+                    }
+
+                    
+
+                }
+
+            }
+
+            for (int i = 0; i < 9; i++)
+
+            {
+
+                r = "111111111";
+
+                int start_i = (i/3)*3;
+
+                int start_j = (i%3)*3;
+
+                for (int j = 0; j < 3; j++)
+
+                {
+
+                    start_j = (i%3)*3;
+
+                    for (int k = 0; k < 3; k++)
+
+                    {
+
+                        if (board[j][k] != '.')
+
+                        {
+
+                            int yy = board[j][k] - '0';
+
+                            r[yy-1] = '0';
+
+                        }
+
+                        start_j++;
+
+                    }
+
+                    start_i++;
+
+                }
+
+                for (int j = 0; j < 3; j++)
+
+                {
+
+                    start_j = (i%3)*3;
+
+                    for (int k = 0; k < 3; k++)
+
+                    {
+
+                        if (board[j][k] == '.')
+
+                        {
+
+                            //modify A[j][k]
+
+                            for (int e = 0; e < 9; e++)
+
+                            {
+
+                                if ((r[i] == '1')&&(A[j][k][e] == '1'))
+
+                                    A[j][k][e] = '1';
+
+                                else
+
+                                    A[j][k][e] = '0';
+
+                            }
+
+                        }
+
+                        start_j++;
+
+                    }
+
+                    start_i++;
+
+                }
+
+            }
+
+        }
+
+    }
+
+int main ()
+{
+	vector<vector<char> > board(9, vector<char>(9, '.'));
+	char c;
+	for (int i = 0; i < 9; i++)
+	{
+		for (int j = 0; j < 9; j++)
+		{
+			cin >> board[i][j];
+		}
+	}
+	solveSudoku(board);
+	for (int i = 0; i < 9; i++)
+	{
+		for (int j = 0; j < 9; j++)
+			cout << board[i][j] << "	";
+		cout << endl;
+	}
+	return 0;
+}
